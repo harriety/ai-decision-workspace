@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Decision Workspace</title>
+    <meta name="description" content="Structured decision-making for AI projects with ROI analysis and bilingual documentation" />
+    
+    <!-- Bilingual support -->
+    <meta name="supported-languages" content="en, zh" />
+    
+    <!-- PWA metadata (optional) -->
+    <meta name="theme-color" content="#3b82f6" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Font preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <style>
+      /* Critical CSS for initial load */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading animation */
+      .app-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        gap: 1rem;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e2e8f0;
+        border-top-color: #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading state -->
+    <div id="root">
+      <div class="app-loading">
+        <div class="loading-spinner"></div>
+        <p>Loading AI Decision Workspace...</p>
+      </div>
+    </div>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Bilingual text data for initial render -->
+    <script type="application/json" id="initial-i18n">
+      {
+        "appTitle": {
+          "en": "AI Decision Workspace",
+          "zh": "AI决策工作空间"
+        },
+        "loading": {
+          "en": "Loading AI Decision Workspace...",
+          "zh": "正在加载AI决策工作空间..."
+        }
+      }
+    </script>
+  </body>
+</html>
