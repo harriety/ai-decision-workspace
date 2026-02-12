@@ -52,84 +52,118 @@ const Step2A = () => {
   };
 
   return (
-    <div className="step-page">
-      <h1>AI Fit Modeling / AI 适配建模</h1>
+    <div className="step-page step2a-page">
+      <header className="step3-header">
+        <p className="step-kicker">Step 2A</p>
+        <h1>AI Fit Modeling / AI 适配建模</h1>
+        <p className="step-subtitle">
+          Decide whether AI is appropriate before ROI scoring.
+          <br />
+          在 ROI 评分前先判断是否适合用 AI。
+        </p>
+      </header>
+
       <form onSubmit={handleSubmit(onSubmit)} className="form-grid">
-        <BilingualField labelZh="是否是 AI 问题" labelEn="Is this an AI problem?">
-          <label>
-            <input
-              type="radio"
-              value="true"
-              {...register('isAiProblem', {
-                setValueAs: value => (typeof value === 'boolean' ? value : value === 'true'),
+        <section className="step-panel">
+          <div className="step-panel-head">
+            <h2>Fit Check / 适配判断</h2>
+            <p>Assess if this is truly an AI-amenable problem.</p>
+          </div>
+          <div className="step-panel-grid">
+            <BilingualField labelZh="是否是 AI 问题" labelEn="Is this an AI problem?">
+              <div className="radio-grid two">
+                <label className="select-option-row">
+                  <input
+                    type="radio"
+                    value="true"
+                    {...register('isAiProblem', {
+                      setValueAs: value => (typeof value === 'boolean' ? value : value === 'true'),
+                    })}
+                  />
+                  <span>Yes / 是</span>
+                </label>
+                <label className="select-option-row">
+                  <input
+                    type="radio"
+                    value="false"
+                    {...register('isAiProblem', {
+                      setValueAs: value => (typeof value === 'boolean' ? value : value === 'true'),
+                    })}
+                  />
+                  <span>No / 否</span>
+                </label>
+              </div>
+              {errors.isAiProblem && <span className="field-error">{errors.isAiProblem.message}</span>}
+            </BilingualField>
+
+            <BilingualField labelZh="AI 角色" labelEn="AI role">
+              <select {...register('aiRole')}>
+                <option value="assistant">Assistant / 助手</option>
+                <option value="automation">Automation / 自动化</option>
+                <option value="analyst">Analyst / 分析</option>
+                <option value="creator">Creator / 创作</option>
+                <option value="other">Other / 其他</option>
+              </select>
+            </BilingualField>
+          </div>
+        </section>
+
+        <section className="step-panel">
+          <div className="step-panel-head">
+            <h2>Delivery Conditions / 实施条件</h2>
+            <p>Evaluate data readiness, feasibility and HITL requirements.</p>
+          </div>
+          <div className="step-panel-grid two-col">
+            <BilingualField labelZh="数据准备度" labelEn="Data readiness">
+              <select {...register('dataReadiness')}>
+                <option value="none">None / 无</option>
+                <option value="some">Some / 部分</option>
+                <option value="ready">Ready / 充足</option>
+                <option value="abundant">Abundant / 丰富</option>
+              </select>
+            </BilingualField>
+
+            <BilingualField labelZh="技术可行性" labelEn="Technical feasibility">
+              <select {...register('technicalFeasibility')}>
+                <option value="low">Low / 低</option>
+                <option value="medium">Medium / 中</option>
+                <option value="high">High / 高</option>
+              </select>
+            </BilingualField>
+
+            <BilingualField labelZh="是否需要人机协作" labelEn="Human-in-the-loop required">
+              <label className="select-option-row">
+                <input type="checkbox" {...register('hitlRequired')} />
+                <span>Yes / 是</span>
+              </label>
+            </BilingualField>
+          </div>
+        </section>
+
+        <section className="step-panel">
+          <div className="step-panel-head">
+            <h2>Risk Notes / 风险备注</h2>
+            <p>List ethical and compliance concerns (comma separated).</p>
+          </div>
+          <BilingualField labelZh="伦理与合规考虑" labelEn="Ethical considerations">
+            <textarea
+              rows={3}
+              placeholder="Bias, privacy, explainability..."
+              {...register('ethicalConsiderations', {
+                setValueAs: value => {
+                  if (Array.isArray(value)) return value;
+                  if (typeof value !== 'string') return undefined;
+                  const trimmed = value.trim();
+                  if (!trimmed) return undefined;
+                  return trimmed
+                    .split(',')
+                    .map((item: string) => item.trim())
+                    .filter(Boolean);
+                },
               })}
             />
-            Yes / 是
-          </label>
-          <label>
-            <input
-              type="radio"
-              value="false"
-              {...register('isAiProblem', {
-                setValueAs: value => (typeof value === 'boolean' ? value : value === 'true'),
-              })}
-            />
-            No / 否
-          </label>
-          {errors.isAiProblem && <span className="field-error">{errors.isAiProblem.message}</span>}
-        </BilingualField>
-
-        <BilingualField labelZh="AI 角色" labelEn="AI role">
-          <select {...register('aiRole')}>
-            <option value="assistant">Assistant / 助手</option>
-            <option value="automation">Automation / 自动化</option>
-            <option value="analyst">Analyst / 分析</option>
-            <option value="creator">Creator / 创作</option>
-            <option value="other">Other / 其他</option>
-          </select>
-        </BilingualField>
-
-        <BilingualField labelZh="数据准备度" labelEn="Data readiness">
-          <select {...register('dataReadiness')}>
-            <option value="none">None / 无</option>
-            <option value="some">Some / 部分</option>
-            <option value="ready">Ready / 充足</option>
-            <option value="abundant">Abundant / 丰富</option>
-          </select>
-        </BilingualField>
-
-        <BilingualField labelZh="是否需要人机协作" labelEn="Human-in-the-loop required">
-          <label>
-            <input type="checkbox" {...register('hitlRequired')} /> Yes / 是
-          </label>
-        </BilingualField>
-
-        <BilingualField labelZh="技术可行性" labelEn="Technical feasibility">
-          <select {...register('technicalFeasibility')}>
-            <option value="low">Low / 低</option>
-            <option value="medium">Medium / 中</option>
-            <option value="high">High / 高</option>
-          </select>
-        </BilingualField>
-
-        <BilingualField labelZh="伦理与合规考虑" labelEn="Ethical considerations">
-          <textarea
-            rows={3}
-            placeholder="Comma separated"
-            {...register('ethicalConsiderations', {
-              setValueAs: value => {
-                if (Array.isArray(value)) return value;
-                if (typeof value !== 'string') return undefined;
-                const trimmed = value.trim();
-                if (!trimmed) return undefined;
-                return trimmed
-                  .split(',')
-                  .map((item: string) => item.trim())
-                  .filter(Boolean);
-              },
-            })}
-          />
-        </BilingualField>
+          </BilingualField>
+        </section>
 
         <button type="submit" className="primary-button">Save / 保存</button>
       </form>

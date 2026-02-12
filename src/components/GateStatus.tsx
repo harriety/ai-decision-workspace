@@ -5,10 +5,10 @@ interface GateStatusProps {
 
 const GateStatus = ({ passed, issues }: GateStatusProps) => {
   return (
-    <div style={{ padding: '12px', border: '1px solid #ddd' }}>
+    <div className={passed ? 'gate-status-card gate-pass' : 'gate-status-card gate-fail'}>
       <strong>{passed ? 'Gate Passed / 通过' : 'Gate Not Passed / 未通过'}</strong>
       {!passed && issues.length > 0 && (
-        <ul>
+        <ul className="gate-issues">
           {issues.map((issue, index) => (
             <li key={index}>{issue}</li>
           ))}

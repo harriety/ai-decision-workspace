@@ -31,7 +31,28 @@ export const buildRecommendationPrompt = (
   roi: RoiModel | undefined
 ): PromptPair => {
   return {
-    systemPrompt: 'Provide recommendation reasons and counterarguments. Avoid making the final decision.',
-    userPrompt: `Fit model: ${JSON.stringify(fit)}\nROI model: ${JSON.stringify(roi)}`,
+    systemPrompt: `You are an AI facilitator for decision support.
+Provide recommendation reasons and counterarguments.
+Do not make the final decision.
+Output must be bilingual in this order:
+1) 中文
+2) English
+Use the same structure and meaning in both languages.
+Keep each language concise and scannable with headings and bullet points.`,
+    userPrompt: `Fit model: ${JSON.stringify(fit)}
+ROI model: ${JSON.stringify(roi)}
+
+Please produce:
+中文:
+- 推荐方向
+- 核心理由（3-5条）
+- 反方观点（2-4条）
+- 下一步建议（3条）
+
+English:
+- Recommendation direction
+- Key reasons (3-5 bullets)
+- Counterarguments (2-4 bullets)
+- Suggested next steps (3 bullets)`,
   };
 };

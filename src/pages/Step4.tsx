@@ -46,20 +46,50 @@ const Step4 = () => {
   };
 
   return (
-    <div className="step-page">
-      <h1>Decision Summary / 决策总结</h1>
-      <div className="helper-actions">
-        <button type="button" onClick={handleGenerate}>
-          Generate Summary / 生成摘要
-        </button>
-        <button type="button" onClick={handleCopy}>
-          {copied ? 'Copied!' : 'Copy Markdown / 复制 Markdown'}
-        </button>
-        <button type="button" onClick={handleDownload}>
-          Download JSON / 下载 JSON
-        </button>
+    <div className="step-page step4-page">
+      <header className="step3-header">
+        <p className="step-kicker">Step 4</p>
+        <h1>Decision Summary / 决策总结</h1>
+        <p className="step-subtitle">
+          Generate export-ready summaries for communication and handoff.
+          <br />
+          生成可导出的总结，便于沟通与交付。
+        </p>
+      </header>
+
+      <section className="step-panel">
+        <div className="step-panel-head">
+          <h2>Export Actions / 导出操作</h2>
+          <p>Generate current snapshot, then copy Markdown or download JSON.</p>
+        </div>
+        <div className="step4-actions">
+          <button type="button" onClick={handleGenerate}>
+            Generate Summary / 生成摘要
+          </button>
+          <button type="button" onClick={handleCopy}>
+            {copied ? 'Copied! / 已复制' : 'Copy Markdown / 复制 Markdown'}
+          </button>
+          <button type="button" onClick={handleDownload}>
+            Download JSON / 下载 JSON
+          </button>
+        </div>
+      </section>
+
+      <div className="step4-preview-grid">
+        <section className="step-panel">
+          <div className="step-panel-head">
+            <h2>Markdown Preview / Markdown 预览</h2>
+          </div>
+          <div className="ai-output-card export-output">{markdown || 'No markdown generated yet. / 暂无 markdown 输出。'}</div>
+        </section>
+
+        <section className="step-panel">
+          <div className="step-panel-head">
+            <h2>JSON Preview / JSON 预览</h2>
+          </div>
+          <div className="ai-output-card export-output">{json || 'No JSON generated yet. / 暂无 JSON 输出。'}</div>
+        </section>
       </div>
-      <textarea rows={16} readOnly value={markdown} />
     </div>
   );
 };

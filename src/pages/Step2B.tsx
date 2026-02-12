@@ -101,7 +101,7 @@ const Step2B = () => {
       });
       setSuggestion(response.text);
     } catch {
-      setSuggestion('AI suggestion failed. Please try again.');
+      setSuggestion('AI suggestion failed. Please try again. / AI 建议生成失败，请重试。');
     } finally {
       setSuggestionLoading(false);
     }
@@ -129,12 +129,23 @@ const Step2B = () => {
   };
 
   return (
-    <div className="step-page">
-      <h1>Strategic ROI Lens / ROI 评估</h1>
+    <div className="step-page step2b-page">
+      <header className="step3-header">
+        <p className="step-kicker">Step 2B</p>
+        <h1>Strategic ROI Lens / ROI 评估</h1>
+        <p className="step-subtitle">
+          Score return vs investment and position the initiative in the ROI quadrant.
+          <br />
+          对回报与投入进行评分，并将项目定位到 ROI 象限。
+        </p>
+      </header>
       <div className="roi-layout">
         <div className="roi-left">
-          <details open className="roi-section">
-            <summary>Section 1: Set Weights / 权重设置</summary>
+          <section className="step-panel roi-section-card">
+            <div className="step-panel-head">
+              <h2>Section 1: Set Weights / 权重设置</h2>
+              <p>Distribute importance across return and investment dimensions.</p>
+            </div>
             {!weightsValid && (
               <div className="field-error">{weightIssues.join(' ')}</div>
             )}
@@ -176,11 +187,14 @@ const Step2B = () => {
                 </div>
               ))}
             </div>
-          </details>
+          </section>
 
-          <details className="roi-section" open={weightsValid}>
-            <summary>Section 2: Score Inputs / 打分</summary>
-            {!weightsValid && <div className="field-error">Complete weights first.</div>}
+          <section className="step-panel roi-section-card">
+            <div className="step-panel-head">
+              <h2>Section 2: Score Inputs / 打分</h2>
+              <p>Input 0-3 scores and optionally use AI score suggestions.</p>
+            </div>
+            {!weightsValid && <div className="field-error">Complete weights first. / 请先完成权重设置。</div>}
             {weightsValid && !scoresValid && (
               <div className="field-error">{scoreIssues.join(' ')}</div>
             )}
@@ -188,7 +202,7 @@ const Step2B = () => {
               <div className="roi-grid">
                 <h3>Return Scores / 回报评分</h3>
                 {RETURN_FIELDS.map(key => (
-                  <div key={key} className="roi-row">
+                  <div key={key} className="roi-row roi-row-score">
                     <label>
                       {ROI_WEIGHT_LABELS.returnWeights[key].zh} / {ROI_WEIGHT_LABELS.returnWeights[key].en}
                     </label>
@@ -206,7 +220,7 @@ const Step2B = () => {
               <div className="roi-grid">
                 <h3>Investment Scores / 投入评分</h3>
                 {INVEST_FIELDS.map(key => (
-                  <div key={key} className="roi-row">
+                  <div key={key} className="roi-row roi-row-score">
                     <label>
                       {ROI_WEIGHT_LABELS.investWeights[key].zh} / {ROI_WEIGHT_LABELS.investWeights[key].en}
                     </label>
@@ -220,27 +234,35 @@ const Step2B = () => {
                 ))}
               </div>
             )}
-            <button type="button" onClick={handleSuggestScores} disabled={suggestionLoading || !weightsValid}>
-              AI Suggest Scores / AI 建议评分
-            </button>
-            <textarea rows={6} readOnly value={suggestionLoading ? 'Loading...' : suggestion} />
-          </details>
+            <div className="helper-actions">
+              <button type="button" onClick={handleSuggestScores} disabled={suggestionLoading || !weightsValid}>
+                AI Suggest Scores / AI 建议评分
+              </button>
+            </div>
+            <div className="ai-output-card">
+              {suggestionLoading ? 'Loading... / 正在生成...' : suggestion || 'No AI suggestion yet. / 暂无 AI 建议。'}
+            </div>
+          </section>
 
-          <details className="roi-section" open={weightsValid && scoresValid}>
-            <summary>Section 3: Quadrant & Rationale / 象限与理由</summary>
-            {!weightsValid && <div className="field-error">Complete weights first.</div>}
-            {weightsValid && !scoresValid && <div className="field-error">Complete scores first.</div>}
+          <section className="step-panel roi-section-card">
+            <div className="step-panel-head">
+              <h2>Section 3: Quadrant & Rationale / 象限与理由</h2>
+              <p>Capture human rationale and explicit confirmation.</p>
+            </div>
+            {!weightsValid && <div className="field-error">Complete weights first. / 请先完成权重设置。</div>}
+            {weightsValid && !scoresValid && <div className="field-error">Complete scores first. / 请先完成评分。</div>}
             {weightsValid && scoresValid && (
               <div className="roi-grid">
                 <label>Why here? / 为什么在此象限</label>
                 <textarea rows={4} {...register('whyHere.text')} />
-                <label>
-                  <input type="checkbox" {...register('whyHere.confirmed')} /> Confirmed by human / 已人工确认
+                <label className="select-option-row">
+                  <input type="checkbox" {...register('whyHere.confirmed')} />
+                  <span>Confirmed by human / 已人工确认</span>
                 </label>
                 {whyHereError && <span className="field-error">{whyHereError}</span>}
               </div>
             )}
-          </details>
+          </section>
 
           <button type="button" className="primary-button" onClick={handleSubmit(onSubmit)}>
             Save ROI / 保存

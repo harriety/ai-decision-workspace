@@ -8,8 +8,8 @@ interface BilingualFieldProps {
 
 const BilingualField = ({ labelZh, labelEn, children }: BilingualFieldProps) => {
   return (
-    <label style={{ display: 'block', marginBottom: '12px' }}>
-      <div style={{ fontWeight: 600 }}>
+    <label className="field-block">
+      <div className="field-label">
         {labelZh} / {labelEn}
       </div>
       {children}
